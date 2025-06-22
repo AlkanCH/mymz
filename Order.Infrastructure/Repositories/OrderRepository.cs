@@ -18,10 +18,10 @@ namespace Order.Infrastructure.Repositories
 
         public IUnitOfWork UnitOfWork => _context;
 
-        public async Task AddAsync(Order order, CancellationToken ct = default)
+        public async Task AddAsync(Order.Domain.Entities.Order order, CancellationToken ct = default)
           => await _context.Orders.AddAsync(order, ct);
 
-        public async Task<Order?> GetByIdAsync(Guid id, CancellationToken ct = default)
+        public async Task<Order.Domain.Entities.Order?> GetByIdAsync(Guid id, CancellationToken ct = default)
           => await _context.Orders
               .Include(o => o.Items)
               .FirstOrDefaultAsync(o => o.Id == id, ct);

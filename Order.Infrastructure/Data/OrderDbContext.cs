@@ -1,26 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Order.Domain.Entities;
+using Order.Domain.Interfaces;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Order.Infrastructure.Data
 {
-    public class OrderDbContext : DbContext
+    public class OrderDbContext : DbContext, IUnitOfWork
     {
         public OrderDbContext(DbContextOptions<OrderDbContext> options)
-          : base(options) { }
+            : base(options)
+        {
+        }
 
-        public DbSet<Order> Orders => Set<Order>();
+        public DbSet<Order.Domain.Entities.Order> Orders => Set<Order.Domain.Entities.Order>();
         public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Zaciągnij wszystkie konfiguracje z this assembly
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderDbContext).Assembly);
+        }
+
+        // Konkretnie implementujemy interfejs IUnitOfWork
+        public async Task<int> SaveChangesAsync(CancellationToken ct = default)
+        {
+            return await base.SaveChangesAsync(ct);
         }
     }
 }

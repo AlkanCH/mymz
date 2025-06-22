@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Order.Domain.Entities
 {
@@ -17,19 +15,25 @@ namespace Order.Domain.Entities
         public OrderStatus Status { get; private set; }
         public decimal TotalAmount => _items.Sum(i => i.UnitPrice * i.Quantity);
 
-        private Order() { }                // dla EF Core
-        public Order(Guid userId, IEnumerable<(Guid productId, decimal price, int qty)> items)
+        // Konstruktor domyślny wymagany przez EF Core
+        private Order() { }
+
+        public Order(Guid userId, IEnumerable<(Guid productId, decimal unitPrice, int quantity)> items)
         {
             Id = Guid.NewGuid();
             UserId = userId;
-            foreach (var (p, price, qty) in items)
-                AddItem(p, price, qty);
+            foreach (var (productId, unitPrice, quantity) in items)
+            {
+                AddItem(productId, unitPrice, quantity);
+            }
             Status = OrderStatus.Pending;
         }
 
         public void AddItem(Guid productId, decimal unitPrice, int quantity)
         {
-            if (quantity <= 0) throw new ArgumentException("Quantity must be > 0");
+            if (quantity <= 0)
+                throw new ArgumentException("Quantity must be greater than 0");
+
             _items.Add(new OrderItem(Id, productId, unitPrice, quantity));
         }
 

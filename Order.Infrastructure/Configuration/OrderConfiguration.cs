@@ -9,9 +9,9 @@ using Order.Domain.Entities;
 
 namespace Order.Infrastructure.Configurations
 {
-    public class OrderConfiguration : IEntityTypeConfiguration<Order>
+    public class OrderConfiguration : IEntityTypeConfiguration<Order.Domain.Entities.Order>
     {
-        public void Configure(EntityTypeBuilder<Order> builder)
+        public void Configure(EntityTypeBuilder<Order.Domain.Entities.Order> builder)
         {
             builder.ToTable("Orders");
             builder.HasKey(o => o.Id);

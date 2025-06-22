@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Order.Domain.Entities
 {
@@ -14,14 +10,16 @@ namespace Order.Domain.Entities
         public decimal UnitPrice { get; private set; }
         public int Quantity { get; private set; }
 
-        private OrderItem() { }             // dla EF Core
-        public OrderItem(Guid orderId, Guid productId, decimal price, int qty)
+        // Konstruktor domyślny wymagany przez EF Core
+        private OrderItem() { }
+
+        public OrderItem(Guid orderId, Guid productId, decimal unitPrice, int quantity)
         {
             Id = Guid.NewGuid();
             OrderId = orderId;
             ProductId = productId;
-            UnitPrice = price;
-            Quantity = qty;
+            UnitPrice = unitPrice;
+            Quantity = quantity;
         }
     }
 }
