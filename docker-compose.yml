@@ -1,0 +1,81 @@
+services:
+
+  product.api:
+    image: ${DOCKER_REGISTRY-}product.api
+    depends_on:
+      - db
+    environment:
+      - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
+    build:
+      context: .
+      dockerfile: Product.API/Dockerfile
+
+  user.api:
+    image: ${DOCKER_REGISTRY-}user.api
+    depends_on:
+      - db
+    environment:
+      - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
+    build:
+      context: .
+      dockerfile: User.API/Dockerfile
+
+  cart.api:
+    image: ${DOCKER_REGISTRY-}cart.api
+    depends_on:
+      - db
+    environment:
+      - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
+    build:
+      context: .
+      dockerfile: Cart.API/Dockerfile
+
+  order.api:
+    image: ${DOCKER_REGISTRY-}order.api
+    depends_on:
+      - db
+    environment:
+      - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
+    build:
+      context: .
+      dockerfile: Order.API/Dockerfile
+
+
+  # payment.api:
+  #   image: ${DOCKER_REGISTRY-}payment.api
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
+  #   build:
+  #     context: .
+  #     dockerfile: Payment.API/Dockerfile
+
+  invoice.api:
+    image: ${DOCKER_REGISTRY-}invoice.api
+    depends_on:
+      - db
+    environment:
+      - CONNECTION_STRING=Server=${DB_HOST};Database=${DB_NAME};User Id=${DB_USER};Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
+    build:
+      context: .
+      dockerfile: Invoice.API/Dockerfile
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "${SA_PASSWORD}"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  mssql_data:  
