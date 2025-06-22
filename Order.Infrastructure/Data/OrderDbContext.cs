@@ -21,10 +21,9 @@ namespace Order.Infrastructure.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderDbContext).Assembly);
         }
 
-        // Konkretnie implementujemy interfejs IUnitOfWork
-        public async Task<int> SaveChangesAsync(CancellationToken ct = default)
+        public override Task<int> SaveChangesAsync(CancellationToken ct = default)
         {
-            return await base.SaveChangesAsync(ct);
+            return base.SaveChangesAsync(ct);
         }
     }
 }

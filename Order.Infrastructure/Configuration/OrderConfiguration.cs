@@ -19,7 +19,7 @@ namespace Order.Infrastructure.Configurations
             builder.Property(o => o.Status)
                    .HasConversion<string>()
                    .IsRequired();
-            builder.Ignore(o => o.TotalAmount); // obliczamy w kodzie
+            builder.Ignore(o => o.TotalAmount);
             builder.HasMany(o => o.Items)
                    .WithOne()
                    .HasForeignKey(i => i.OrderId)

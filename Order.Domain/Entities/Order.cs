@@ -15,7 +15,6 @@ namespace Order.Domain.Entities
         public OrderStatus Status { get; private set; }
         public decimal TotalAmount => _items.Sum(i => i.UnitPrice * i.Quantity);
 
-        // Konstruktor domyślny wymagany przez EF Core
         private Order() { }
 
         public Order(Guid userId, IEnumerable<(Guid productId, decimal unitPrice, int quantity)> items)

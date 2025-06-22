@@ -10,7 +10,6 @@ namespace Order.Domain.Entities
         public decimal UnitPrice { get; private set; }
         public int Quantity { get; private set; }
 
-        // Konstruktor domyślny wymagany przez EF Core
         private OrderItem() { }
 
         public OrderItem(Guid orderId, Guid productId, decimal unitPrice, int quantity)
